@@ -1,2 +1,2 @@
 # notes
-Never later
+日常笔记
