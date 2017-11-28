@@ -14,7 +14,7 @@ const userToSearch = 'john';
 const searchUrl = 'https://github.com/search?q=' + userToSearch + '&type=Users&utf8=%E2%9C%93';
 
 async function run() {
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({});
   const page = await browser.newPage();
 
   await page.goto('https://github.com/login');

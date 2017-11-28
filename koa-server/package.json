@@ -1,0 +1,19 @@
+{
+  "name": "koa-server",
+  "version": "1.0.0",
+  "description": "koa server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "yannan",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.0.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.3.0",
+    "save": "^2.3.1",
+    "mongoose": "^4.13.3"
+  }
+}
