@@ -25,6 +25,6 @@ app.use(async (ctx, next) => {
 // add router middleware
 app.use(controller());
 
-// 在端口80监听:
-app.listen(80);
-console.log('app started at port 3008...');
+// 在端口3000监听:
+app.listen(3000);
+console.log('app started at port 3000...');
