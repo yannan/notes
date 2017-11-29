@@ -4,6 +4,7 @@ const Info = require('./models/info');
 
 const NEWS_TITLE = '.news__item-title a';
 const NEWS_ITEM = '.news__item';
+const NEWS_TYPE = '.news__item-meta > a.ml10';
 const hostName = 'https://segmentfault.com/news/newest';
 
 async function sfSpider() {
@@ -16,23 +17,25 @@ async function sfSpider() {
   for (let h = 1; h < 10000; h++) {
     await page.goto(`${hostName}?page=${h}`);
 
-    const info = await page.evaluate((sItem, sTitle) => {
+    const info = await page.evaluate((sItem, sTitle, sType) => {
       return Array.prototype.slice.apply(document.querySelectorAll(sItem)).map($infoItem => {
         const title = $infoItem.querySelector(sTitle).innerText;
         const link = $infoItem.querySelector(sTitle).href;
+        const type = $infoItem.querySelector(sType).innerText;
 
         return {
           title,
-          link
+          link,
+          type
         };
       });
+    }, NEWS_ITEM, NEWS_TITLE, NEWS_TYPE);
 
-    }, NEWS_ITEM, NEWS_TITLE);
-
-    info.map(({title, link}) => {
+    info.map(({title, link, type}) => {
       upsertInfo({
         title: title,
         link: link,
+        type: type
         dateCrawled: new Date()
       });
     });
