@@ -1,5 +1,4 @@
 const fs = require('fs');
-console.log(__dirname);
 
 function addMapping(router, mapping) {
   for (var url in mapping) {

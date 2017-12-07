@@ -12,15 +12,40 @@ const bodyparser = require('koa-bodyparser');
 // 导入controller middleware
 const controller = require('./controller');
 
+// 导入模版
+const templating = require('./templating');
+
 // 创建一个Koa对象表示web app本身:
 const app = new Koa();
-app.use(bodyparser());
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 // log request URL
 app.use(async (ctx, next) => {
   console.log(`Progress ${ctx.request.method} ${ctx.request.url}...`);
-  await next();
+  var
+      start = new Date().getTime(),
+      execTime;
+    await next();
+    execTime = new Date().getTime() - start;
+    ctx.response.set('X-Response-Time', `${execTime}ms`);
 });
+
+// static file support
+if (! isProduction) {
+  // 导入静态文件处理函数
+  let staticFiles = require('./static-files');
+  app.use(staticFiles('/static/', __dirname + '/static'));
+}
+
+// parse request body
+app.use(bodyparser());
+
+// add nunjucks as view:
+app.use(templating('views', {
+  noCache: !isProduction,
+  watch: !isProduction
+}));
 
 // add router middleware
 app.use(controller());
