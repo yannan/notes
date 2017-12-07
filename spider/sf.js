@@ -35,7 +35,7 @@ async function sfSpider() {
       upsertInfo({
         title: title,
         link: link,
-        type: type
+        type: type,
         dateCrawled: new Date()
       });
     });

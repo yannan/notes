@@ -15,6 +15,9 @@ const controller = require('./controller');
 // 导入模版
 const templating = require('./templating');
 
+// 导入api
+const rest = require('./rest');
+
 // 创建一个Koa对象表示web app本身:
 const app = new Koa();
 
@@ -46,6 +49,9 @@ app.use(templating('views', {
   noCache: !isProduction,
   watch: !isProduction
 }));
+
+// bind .rest() for ctx:
+app.use(rest.restify());
 
 // add router middleware
 app.use(controller());
