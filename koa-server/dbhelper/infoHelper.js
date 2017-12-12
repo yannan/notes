@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Info = mongoose.model('Info');
 
-var getInfo = async () => {
-  var query = Info.find({}, null, {limit: 20});
+var getInfo = async (num) => {
+  var query = Info.find({}).limit(num).sort({ _id: -1 });
   var res = [];
   await query.exec(function(err, infos) {
     if (err) {

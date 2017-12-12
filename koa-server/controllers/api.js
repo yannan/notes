@@ -5,14 +5,9 @@ const infoHelper = require('../dbhelper/infoHelper');
 const APIError = require('../rest').APIError;
 
 module.exports = {
-  'GET /api/sf': async (ctx, next) => {
-    var info= await infoHelper();
-  
-    // ctx.body = {
-    //   code: 200,
-    //   success: true,
-    //   data
-    // }
+  'GET /api/sf/:num': async (ctx, next) => {
+    console.log(ctx.params.num);
+    var info= await infoHelper(parseInt(ctx.params.num));
 
     ctx.rest({
       info: info

@@ -76,6 +76,8 @@ function upsertInfo(infoObj) {
   Info.findOneAndUpdate(conditions, infoObj, options, (err, result) => {
     if (err) {
       throw err;
+    } else {
+      // console.log(result)
     }
   });
 }
