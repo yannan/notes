@@ -25,6 +25,14 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- 分页 -->
+        <nav aria-label="">
+            <ul class="pager">
+              <li id="prePage"><a href="javascript:;" >Previous</a></li>
+              <li id="nextPage"><a href="javascript:;">Next</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
 
@@ -33,16 +41,47 @@
             var vm = new Vue({
                 el: '#info-list',
                 data: {
-                    infos: []
+                    infos: [],
+                    page: 1,
+                    size: 10
                 },
                 methods: {
-    
+                    getList: function () {
+                        if (this.page === 1) {
+                            $('#prePage').hide()
+                        } else if (this.infos.length < 10) {
+                            $('#nextPage').hide();
+                        } else {
+                            $('#prePage, #nextPage').show();
+                        }
+                        $.getJSON(`/api/sf/query?size=${this.size}&page=${this.page}`).done(function (data) {
+                            vm.infos = data.info;
+                            // console.log(data);
+                        });
+                    },
+                    goPre: function () {
+                        $('#prePage').click(function () {
+                            if (vm.page > 1) {
+                                vm.page -= 1;
+                                vm.getList();
+                            }
+                        })
+                        
+                    },
+                    goNext: function () {
+                        $('#nextPage').click(function () {
+                            if (vm.infos.length = 10) {
+                                vm.page += 1;
+                                vm.getList();
+                            }
+                        })
+                    }
+                },
+                mounted: function () {
+                    this.getList();
+                    this.goPre();
+                    this.goNext();
                 }
-            });
-    
-            $.getJSON('/api/sf/10').done(function (data) {
-                vm.infos = data.info;
-                console.log(data);
             });
         })
     </script>

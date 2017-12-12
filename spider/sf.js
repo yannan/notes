@@ -46,12 +46,12 @@ async function sfSpider() {
 
   browser.close();
 }
-sfSpider();
-// scheduleCronstyle();
+// sfSpider();
+scheduleCronstyle();
 
 // 定时任务
 function scheduleCronstyle () {
-  schedule.scheduleJob('30 30 * * * *', function () {
+  schedule.scheduleJob('30 * * * * *', function () {
     sfSpider();
   })
 }
