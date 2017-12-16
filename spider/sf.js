@@ -1,22 +1,38 @@
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
-const Info = require('./models/info');
+const sf = require('./models/sf');
 var schedule = require('node-schedule');
 
 const NEWS_TITLE = '.news__item-title a';
 const NEWS_ITEM = '.news__item';
 const NEWS_TYPE = '.news__item-meta > a.ml10';
-const hostName = 'https://segmentfault.com/news/newest';
+const hostName = 'https://segmentfault.com/news';
 
-async function sfSpider() {
-  const browser = await puppeteer.launch({});
+// scheduleCronstyle();
+sfSpider(sf);
+
+async function sfSpider(collection) {
+  const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
 
-  await page.goto('https://segmentfault.com/news/newest');
-  // await page.screenshot({path: 'screenshots/segmentfault.png'});
+  let urlInfo = `${hostName}/newest`;
+  await page.goto(urlInfo);
 
+  // await page.screenshot({path: 'screenshots/segmentfault.png'});
+  await sfTaskLoop(page, urlInfo, collection.info);
+
+  await page.goto(hostName);
+  await sfTaskLoop(page, hostName, collection.news);
+
+  browser.close();
+}
+
+// 循环爬取
+async function sfTaskLoop (page, url, collection) {
+
+  console.log(collection);
   for (let h = 1; h < 10; h++) {
-    await page.goto(`${hostName}?page=${h}`);
+    await page.goto(`${url}?page=${h}`);
 
     const info = await page.evaluate((sItem, sTitle, sType) => {
       return Array.prototype.slice.apply(document.querySelectorAll(sItem)).map($infoItem => {
@@ -38,26 +54,22 @@ async function sfSpider() {
         link: link,
         type: type,
         dateCrawled: new Date()
-      });
+      }, collection);
     });
 
     console.log(info);
   }
-
-  browser.close();
 }
-// sfSpider();
-scheduleCronstyle();
 
 // 定时任务
 function scheduleCronstyle () {
-  schedule.scheduleJob('30 * * * * *', function () {
+  schedule.scheduleJob('30 49 11 * * *', function () {
     sfSpider();
   })
 }
 
 //  更新数据库
-function upsertInfo(infoObj) {
+function upsertInfo(infoObj, collection) {
   const DB_URL = 'mongodb://45.76.66.135/segmentfault';
   if (mongoose.connection.readyState == 0) {
     mongoose.connect(DB_URL);
@@ -73,7 +85,7 @@ function upsertInfo(infoObj) {
     setDefaultsOnInsert: true
   };
 
-  Info.findOneAndUpdate(conditions, infoObj, options, (err, result) => {
+  collection.findOneAndUpdate(conditions, infoObj, options, (err, result) => {
     if (err) {
       throw err;
     } else {
