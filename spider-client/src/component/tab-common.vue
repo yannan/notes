@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="table-common">
+  <div class="tab-common">
     <ul>
-      <li v-for="info in infos">
-        {{ info.info }}
+      <li v-for="(tab, index) in tabs" @click="tabChange(index)">
+        <a href="#" :class="{ current: tab.current }"> {{ tab.title }} </a>
       </li>
     </ul>
   </div>
@@ -11,21 +11,30 @@
 <script>
 export default {
   name: 'tablist',
+  props: {
+    tabs: ''
+  },
   data () {
     return {
-      infos: [
-        {'info':1},
-        {'info':2},
-        {'info':3},
-        {'info':4}
-      ]
+      // tabs: [
+      //   {'title': 'segmenfault'},
+      //   {'title': '掘金'},
+      //   {'title': 'W3C'}
+      // ]
+    }
+  },
+  methods: {
+    tabChange: function (index) {
+      console.log('click', index);
+
+      this.$emit('conTabChange', index)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.table-common {
+.tab-common {
 
 }
 </style>

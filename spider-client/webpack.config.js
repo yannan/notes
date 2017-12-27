@@ -14,29 +14,42 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 1 }
+          },
+          'postcss-loader'
         ],
       },
       {
         test: /\.scss$/,
         use: [
           'vue-style-loader',
-          'css-loader',
-          'sass-loader'
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 1 }
+          },
+          'sass-loader',
+          'postcss-loader'
         ],
       },
       {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
-          'css-loader',
-          'sass-loader?indentedSyntax'
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 1 }
+          },
+          'sass-loader?indentedSyntax',
+          'postcss-loader'
         ],
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
+          postcss: [require('postcss-cssnext')()],
           loaders: {
             // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
             // the "scss" and "sass" values for the lang attribute to the right configs here.
@@ -44,12 +57,12 @@ module.exports = {
             'scss': [
               'vue-style-loader',
               'css-loader',
-              'sass-loader'
+              'sass-loader',
             ],
             'sass': [
               'vue-style-loader',
               'css-loader',
-              'sass-loader?indentedSyntax'
+              'sass-loader?indentedSyntax',
             ]
           }
           // other vue-loader options go here
@@ -78,11 +91,31 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    port: 8087,
+    proxy: {
+      '/api': {
+        target: 'http://45.76.66.135:3000/api',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/api': '/'
+        }
+      }
+    }
   },
   performance: {
     hints: false
   },
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: [
+          require('autoprefixer')()
+        ]
+      }
+    })
+  ],
   devtool: '#eval-source-map'
 }
 

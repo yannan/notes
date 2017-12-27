@@ -1,69 +1,71 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-
-    <tabCommon>
-
-    </tabCommon>
+    <header class="my-header">
+      <h1>
+        <a href="#"> {{ msg }} </a>
+      </h1>
+      <tabCommon :tabs="mainTab" class="fr right-tab"></tabCommon>
+    </header>
+    <section class="content">
+      <div class="clearfix">
+        <tabCommon :tabs="otherTab" class="fl con-tab" @conTabChange="tabHandle"></tabCommon>
+      </div>
+      <resList :infos="infos"></resList>
+    </section>
   </div>
 </template>
 
 <script>
 import tabCommon from './component/tab-common.vue'
+import resList from './component/res-list.vue'
+
+import {resApi} from './api/api.js'
 
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'DEMO',
+      mainTab: [
+        {'title': 'segmenfault'},
+        {'title': '掘金'},
+        {'title': 'W3C'}
+      ],
+      otherTab: [
+        {'title': '最新', 'current': true},
+        {'title': '最热', 'current': false}
+      ],
+      infos: ''
     }
   },
   components: {
-    tabCommon
+    tabCommon,
+    resList
+  },
+  methods: {
+    init: function () {
+      let param = `size=10&page=1`
+      resApi(param).then((res) => {
+        this.infos = res.info
+        console.log('info:', this.infos)
+      })
+    },
+
+    tabHandle: function (index) {
+      this.otherTab = this.otherTab.map((item) => {
+        item.current = false
+        return item
+      })
+      this.otherTab[index].current = true
+    }
+  },
+
+  mounted: function () {
+    this.init()
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+  @import './static/scss/main.scss'
 </style>

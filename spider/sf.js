@@ -13,6 +13,7 @@ sfSpider(sf);
 
 async function sfSpider(collection) {
   const browser = await puppeteer.launch({headless: false});
+  // const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   let urlInfo = `${hostName}/newest`;
@@ -30,7 +31,7 @@ async function sfSpider(collection) {
 // 循环爬取
 async function sfTaskLoop (page, url, collection) {
 
-  console.log(collection);
+  // console.log(collection);
   for (let h = 1; h < 10; h++) {
     await page.goto(`${url}?page=${h}`);
 
