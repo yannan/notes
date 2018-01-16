@@ -48,7 +48,7 @@ var setUrl = async (url) => {
     res = await newRecord.save()
   }
 
-  return res
+  return res.shortLink
 
 }
 
