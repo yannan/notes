@@ -90,7 +90,8 @@ module.exports = {
       })
     } else {
       let res = await setUrl(url)
-      let short = 'http://' + ctx.request.host + '/' + res
+      // let short = 'http://' + ctx.request.host + '/' + res
+      let short = 'http://short.yannan.xyz/' + res  // 部署到线上域名
       ctx.rest({
         code: 200,
         msg: '成功',
@@ -98,7 +99,7 @@ module.exports = {
       })
     }
   },
-  
+
   'GET /:url': async (ctx, next) => {
     // console.log(ctx.request.query.size, ctx.request.query.page);
     let data = await getUrl(ctx.params.url);
