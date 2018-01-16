@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const DB_URL = 'mongodb://45.76.66.135/segmentfault';
+const DB_URL = 'mongodb://localhost/shortlink';
 var conn = mongoose.connect(DB_URL);
 
-const {Link, Info, News, Blog} = require('./models/info');
+const Link = require('./models/model');
 
 // 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:
 const Koa = require('koa');
@@ -11,9 +11,6 @@ const bodyparser = require('koa-bodyparser');
 
 // 导入controller middleware
 const controller = require('./controller');
-
-// 导入模版
-const templating = require('./templating');
 
 // 导入api
 const rest = require('./rest');
@@ -44,14 +41,8 @@ if (! isProduction) {
 // parse request body
 app.use(bodyparser());
 
-// add nunjucks as view:
-app.use(templating('views', {
-  noCache: !isProduction,
-  watch: !isProduction
-}));
-
 // bind .rest() for ctx:
-app.use(rest.restify());
+app.use(rest.restify('/'));
 
 // add router middleware
 app.use(controller());

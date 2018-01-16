@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Link, Info, News, Blog} = require('../models/info');
+const Link = require('../models/model');
 
 const MAP = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
 				'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
@@ -32,8 +32,6 @@ var setUrl = async (url) => {
 
   var count = await Link.count({})
 
-	console.log(Link)
-
   var query = await Link.findOne({originLink: url})
 
   var newRecord = new Link({
@@ -48,56 +46,12 @@ var setUrl = async (url) => {
     res = await newRecord.save()
   }
 
-  return res
+  return res.shortLink
 
 }
 
-var getInfo = async (size, page) => {
-  var query = Info.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
-  var res = [];
-  await query.exec(function(err, data) {
-    if (err) {
-      res = [];
-    } else {
-      res = data;
-    }
-  })
-
-  return res;
-}
-
-var getNews = async (size, page) => {
-  var query = News.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
-  var res = [];
-  await query.exec(function(err, data) {
-    if (err) {
-      res = [];
-    } else {
-      res = data;
-    }
-  })
-
-  return res;
-}
-
-var getBlog = async (size, page) => {
-  var query = Blog.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
-  var res = [];
-  await query.exec(function(err, data) {
-    if (err) {
-      res = [];
-    } else {
-      res = data;
-    }
-  })
-
-  return res;
-}
 
 module.exports = {
-  getInfo,
-  getNews,
-  getBlog,
-	getUrl,
+  getUrl,
   setUrl
 }

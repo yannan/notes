@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+let counter = 1;
+let CountedId = {type: Number, default: () => counter++};
+
+const linkSchema = new mongoose.Schema({
+  originLink: String,
+  shortLink: String,
+  dateCrawled: Date,
+  id: CountedId
+});
+
 const infoSchema = new mongoose.Schema({
   title: String,
   link: String,
@@ -22,7 +32,8 @@ const blogSchema = new mongoose.Schema({
 });
 
 module.exports = {
-  'info': mongoose.model('Info', infoSchema),
-  'news': mongoose.model('News', infoSchema),
-  'blog': mongoose.model('Blog', infoSchema)
+  'Link': mongoose.model('Link', linkSchema),
+  'Info': mongoose.model('Info', infoSchema),
+  'News': mongoose.model('News', newsSchema),
+  'Blog': mongoose.model('Blog', blogSchema)
 };
