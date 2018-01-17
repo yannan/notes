@@ -82,7 +82,8 @@ module.exports = {
         code: 400,
         msg: 'url格式错误'
       })
-    } else if (url.indexOf('http://' + ctx.request.host) === 0) {
+    // } else if (url.indexOf('http://' + ctx.request.host) === 0) {
+    } else if (url.indexOf('http://yannan.xyz/') === 0) {
       ctx.rest({
         code: 200,
         msg: '成功',
