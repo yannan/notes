@@ -11,7 +11,7 @@ const MAP = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
 function generateUrl(index) {
 	let shortUrl = ''
   let i =0
-	while (i<6) {
+	while (i<5) {
 		var remainder = index % 62;
 		shortUrl += MAP[remainder]
 		index = parseInt(index / 62);
