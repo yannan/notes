@@ -49,3 +49,13 @@ URL: host:port/api/url
 ```
 curl host:port/api/url?url=http://www.baidu.com
 ```
+
+## 运行
+
+服务端npm install&&npm start,运行在3000端口
+
+客户端开发环境npm install&&npm run dev将运行在8087端口,npm run build将打包后可放到服务器目录
+
+## 示例地址
+
+<http://short.yannan.xyz>
