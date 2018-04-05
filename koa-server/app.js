@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DB_URL = 'mongodb://45.76.66.135/segmentfault';
+const DB_URL = 'mongodb://45.76.66.135:52222/segmentfault';
 var conn = mongoose.connect(DB_URL);
 
 const {Link, Info, News, Blog} = require('./models/info');

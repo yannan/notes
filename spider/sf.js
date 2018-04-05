@@ -71,7 +71,7 @@ function scheduleCronstyle () {
 
 //  更新数据库
 function upsertInfo(infoObj, collection) {
-  const DB_URL = 'mongodb://45.76.66.135/segmentfault';
+  const DB_URL = 'mongodb://45.76.66.135:52222/segmentfault';
   if (mongoose.connection.readyState == 0) {
     mongoose.connect(DB_URL);
   }

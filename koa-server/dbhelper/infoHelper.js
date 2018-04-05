@@ -53,45 +53,81 @@ var setUrl = async (url) => {
 }
 
 var getInfo = async (size, page) => {
-  var query = Info.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
-  var res = [];
-  await query.exec(function(err, data) {
+  var query = Info.find({}).limit(size).skip(size * page - size).sort({ _id: -1 });
+	var countQuery = Info.find({}).count()
+  var data = [];
+	var total = 0;
+  await query.exec(function(err, res) {
     if (err) {
-      res = [];
+      data = [];
     } else {
-      res = data;
+      data = res;
     }
   })
+	await countQuery.exec(function(err, res) {
+		if (err) {
 
-  return res;
+    } else {
+      total = res
+    }
+	})
+
+  return {
+		data,
+		total
+	}
 }
 
 var getNews = async (size, page) => {
   var query = News.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
-  var res = [];
-  await query.exec(function(err, data) {
+	var countQuery = News.find({}).count()
+  var data = [];
+	var total = 0;
+  await query.exec(function(err, res) {
     if (err) {
-      res = [];
+      data = [];
     } else {
-      res = data;
+      data = res;
     }
   })
+	await countQuery.exec(function(err, res) {
+		if (err) {
 
-  return res;
+    } else {
+      total = res
+    }
+	})
+
+  return {
+		data,
+		total
+	}
 }
 
 var getBlog = async (size, page) => {
   var query = Blog.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
-  var res = [];
-  await query.exec(function(err, data) {
+	var countQuery = Blog.find({}).count()
+  var data = [];
+	var total = 0;
+  await query.exec(function(err, res) {
     if (err) {
-      res = [];
+      data = [];
     } else {
-      res = data;
+      data = res;
     }
   })
+	await countQuery.exec(function(err, res) {
+		if (err) {
 
-  return res;
+    } else {
+      total = res
+    }
+	})
+
+  return {
+		data,
+		total
+	}
 }
 
 module.exports = {

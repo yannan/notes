@@ -63,7 +63,8 @@ export default {
     init: function () {
       let param = `size=10&page=1`
       resApi(param).then((res) => {
-        this.infos = res.info
+        this.infos = res.data
+        console.log(res)
       })
     },
 
@@ -85,17 +86,17 @@ export default {
       if (index === 0) {
         let param = `size=10&page=1`
         resApi(param).then((res) => {
-          this.infos = res.info
+          this.infos = res.data
         })
       } else if (index === 1) {
         let param = `size=10&page=1`
         newsApi(param).then((res) => {
-          this.infos = res.news
+          this.infos = res.data
         })
       } else {
         let param = `size=10&page=1`
         blogApi(param).then((res) => {
-          this.infos = res.blog
+          this.infos = res.data
         })
       }
     }

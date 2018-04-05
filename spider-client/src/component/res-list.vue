@@ -2,7 +2,7 @@
   <div class="list-common">
     <ul>
       <li v-for="info in infos">
-        <a v-bind:href="info.link">
+        <a v-bind:href="info.link" target="_blank">
           <span> {{ info.title }}</span>
         </a>
       </li>
