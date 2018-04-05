@@ -28,9 +28,7 @@ module.exports = {
         msg: '参数错误'
       })
     } else {
-      ctx.rest({
-        data: info
-      })
+      ctx.rest(info)
     }
   },
 
@@ -44,9 +42,7 @@ module.exports = {
         msg: '参数错误'
       })
     } else {
-      ctx.rest({
-        data: news
-      })
+      ctx.rest(news)
     }
   },
 
@@ -60,10 +56,7 @@ module.exports = {
         msg: '参数错误'
       })
     } else {
-      ctx.rest({
-        data: blog,
-        total: total
-      })
+      ctx.rest(blog)
     }
   },
 
