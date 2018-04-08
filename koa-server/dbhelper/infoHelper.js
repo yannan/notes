@@ -131,8 +131,8 @@ var getBlog = async (size, page) => {
 }
 
 var getNav = async () => {
-  var query = Blog.find({}).sort({ _id: -1 });
-	var countQuery = Blog.find({}).count()
+  var query = Nav.find({}).sort({ _id: -1 });
+	var countQuery = Nav.find({}).count()
   var data = [];
 	var total = 0;
   await query.exec(function(err, res) {
