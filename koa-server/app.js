@@ -21,7 +21,16 @@ const rest = require('./rest');
 
 // 创建一个Koa对象表示web app本身:
 const app = new Koa();
-app.use(cors());
+app.use(cors({
+    origin: function (ctx) {
+        return '*';
+    },
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}))
 
 const isProduction = process.env.NODE_ENV === 'production';
 
