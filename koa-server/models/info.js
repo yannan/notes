@@ -31,9 +31,17 @@ const blogSchema = new mongoose.Schema({
   dateCrawled: Date
 });
 
+const navSchema = new mongoose.Schema({
+  url: String,
+  imgUrl: String,
+  type: String,
+  dateCrawled: Date
+});
+
 module.exports = {
   'Link': mongoose.model('Link', linkSchema),
   'Info': mongoose.model('Info', infoSchema),
   'News': mongoose.model('News', newsSchema),
-  'Blog': mongoose.model('Blog', blogSchema)
+  'Blog': mongoose.model('Blog', blogSchema),
+  'Nav': mongoose.model('Nav', navSchema)
 };

@@ -3,7 +3,8 @@ const Info = mongoose.model('Info');
 const News = mongoose.model('News');
 const Blog = mongoose.model('Blog');
 const Link = mongoose.model('Link');
-const {getInfo, getNews, getBlog, getUrl, setUrl} = require('../dbhelper/infoHelper');
+const Nav = mongoose.model('Nav');
+const {getInfo, getNews, getBlog, getUrl, setUrl, getNav, setNav} = require('../dbhelper/infoHelper');
 
 const APIError = require('../rest').APIError;
 
@@ -110,5 +111,32 @@ module.exports = {
       //   data: data.originLink
       // })
     }
+  },
+
+  'GET /api/addnav': async (ctx, next) => {
+    // console.log(ctx.request.query.size, ctx.request.query.page);
+    let url = ctx.request.query.url
+    let imgUrl = ctx.request.query.imgUrl
+
+    console.log(url, imgUrl)
+
+    let res = await setNav(url, imgUrl)
+
+    ctx.rest({
+      code: 200,
+      msg: '成功',
+      data: res
+    })
+  },
+
+  'GET /api/navlist': async (ctx, next) => {
+
+    let res = await getNav()
+
+    ctx.rest({
+      code: 200,
+      msg: '成功',
+      data: res
+    })
   }
 };

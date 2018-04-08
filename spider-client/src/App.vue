@@ -18,7 +18,7 @@
         @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10, 20, 50, 100]"
-        :page-size="10"
+        :page-size="size"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         class="fr">
@@ -39,9 +39,10 @@ export default {
     return {
       msg: 'DEMO',
       currentPage: 1,
-      total: 100,
+      total: 0,
       size: 10,
       page: 1,
+      index: 0,
       mainTab: [
         {'title': 'segmenfault'},
         {'title': '掘金'},
@@ -64,16 +65,21 @@ export default {
       let param = `size=10&page=1`
       resApi(param).then((res) => {
         this.infos = res.data
+        this.total = res.total
         console.log(res)
       })
     },
 
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
+      this.size = val
+      this.loadData()
     },
 
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+      this.page = val
+      this.loadData()
     },
 
     tabHandle: function (index) {
@@ -82,19 +88,24 @@ export default {
         return item
       })
       this.otherTab[index].current = true
+      this.index = index
 
-      if (index === 0) {
-        let param = `size=10&page=1`
+      this.loadData()
+    },
+
+    loadData: function () {
+      if (this.index === 0) {
+        let param = `size=${this.size}&page=${this.page}`
         resApi(param).then((res) => {
           this.infos = res.data
         })
-      } else if (index === 1) {
-        let param = `size=10&page=1`
+      } else if (this.index === 1) {
+        let param = `size=${this.size}&page=${this.page}`
         newsApi(param).then((res) => {
           this.infos = res.data
         })
       } else {
-        let param = `size=10&page=1`
+        let param = `size=${this.size}&page=${this.page}`
         blogApi(param).then((res) => {
           this.infos = res.data
         })

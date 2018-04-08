@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Link, Info, News, Blog} = require('../models/info');
+const {Link, Info, News, Blog, Nav} = require('../models/info');
 
 const MAP = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
 				'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
@@ -130,10 +130,57 @@ var getBlog = async (size, page) => {
 	}
 }
 
+var getNav = async () => {
+  var query = Blog.find({}).sort({ _id: -1 });
+	var countQuery = Blog.find({}).count()
+  var data = [];
+	var total = 0;
+  await query.exec(function(err, res) {
+    if (err) {
+      data = [];
+    } else {
+      data = res;
+    }
+  })
+	await countQuery.exec(function(err, res) {
+		if (err) {
+
+    } else {
+      total = res
+    }
+	})
+
+  return {
+		data,
+		total
+	}
+}
+
+var setNav = async (url, imgUrl) => {
+
+  var res = ''
+
+  var count = await Nav.count({})
+
+  var query = await Nav.findOne({url: url})
+
+  var newRecord = new Nav({
+    url: url,
+    imgUrl: imgUrl
+  });
+
+  res = await newRecord.save()
+
+  return res
+
+}
+
 module.exports = {
   getInfo,
   getNews,
   getBlog,
 	getUrl,
-  setUrl
+  setUrl,
+	getNav,
+	setNav
 }
