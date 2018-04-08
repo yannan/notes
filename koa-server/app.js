@@ -6,6 +6,7 @@ const {Link, Info, News, Blog} = require('./models/info');
 
 // 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:
 const Koa = require('koa');
+var cors = require('koa2-cors');
 
 const bodyparser = require('koa-bodyparser');
 
@@ -20,6 +21,7 @@ const rest = require('./rest');
 
 // 创建一个Koa对象表示web app本身:
 const app = new Koa();
+app.use(cors());
 
 const isProduction = process.env.NODE_ENV === 'production';
 
