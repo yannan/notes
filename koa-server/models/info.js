@@ -34,6 +34,7 @@ const blogSchema = new mongoose.Schema({
 const navSchema = new mongoose.Schema({
   url: String,
   imgUrl: String,
+  title: String,
   type: String,
   dateCrawled: Date
 });

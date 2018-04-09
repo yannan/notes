@@ -156,7 +156,7 @@ var getNav = async () => {
 	}
 }
 
-var setNav = async (url, imgUrl) => {
+var setNav = async (url, imgUrl, title) => {
 
   var res = ''
 
@@ -166,7 +166,8 @@ var setNav = async (url, imgUrl) => {
 
   var newRecord = new Nav({
     url: url,
-    imgUrl: imgUrl
+    imgUrl: imgUrl,
+		title: title
   });
 
   res = await newRecord.save()

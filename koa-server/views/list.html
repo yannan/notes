@@ -106,6 +106,8 @@ img {
       <input type="file" id="File">
       <br>
       <span>输入url:</span><input type="text" id="Url">
+      <br>
+      <span>输入标题:</span><input type="text" id="Title">
     </div>
     <div class="btn">
       <a href="javascript:;" class="btn-ok">确认</a>
@@ -148,6 +150,7 @@ img {
   $('.btn-ok').click(function() {
     var fileObj = document.getElementById("File").files[0]; // js 获取文件对象
     var url = $('#Url').val()
+    var title = $('#Title').val()
      if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
          alert("请选择图片");
          return;
@@ -182,19 +185,20 @@ img {
            console.log(result.filename)
            imgUrl = 'http://yannan.xyz' + result.filename
            alert("上传完成!");
-           addRecord(url, imgUrl)
+           addRecord(url, imgUrl, title)
          }
      })
 
   })
 
-  function addRecord(url, imgUrl) {
+  function addRecord(url, imgUrl, title) {
     $.ajax({
       url: 'http://yannan.xyz/api/addnav',
       type: 'GET',
       data: {
         url: url,
-        imgUrl: imgUrl
+        imgUrl: imgUrl,
+        title: title
       },
       success: function (res) {
         console.log(res)

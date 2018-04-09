@@ -115,12 +115,13 @@ module.exports = {
 
   'GET /api/addnav': async (ctx, next) => {
     // console.log(ctx.request.query.size, ctx.request.query.page);
-    let url = ctx.request.query.url
-    let imgUrl = ctx.request.query.imgUrl
+    let url = ctx.request.query.url || ''
+    let imgUrl = ctx.request.query.imgUrl || ''
+    let title = ctx.request.query.title || ''
 
-    console.log(url, imgUrl)
+    console.log(url, imgUrl, title)
 
-    let res = await setNav(url, imgUrl)
+    let res = await setNav(url, imgUrl, title)
 
     ctx.rest({
       code: 200,
