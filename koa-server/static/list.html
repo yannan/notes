@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>区域链接汇聚平台</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+<html>
+<head>
+<style type="text/css">
+html,body {
+  height: 100%
+}
+body,ul,li{margin:0;padding:0;}
+.xttblog{
+ width: 1200px;
+ height: 170px;
+ margin-top:50px;
+ margin-left: auto;
+ margin-right: auto;
+}
+.box{margin-left: 5px;margin-top: 5px;list-style-type:none;}
+.box:after{
+ content: ".";
+ display: block;
+ line-height: 0;
+ width:0;
+ height: 0;
+ clear: both;
+ visibility: hidden;
+ overflow: hidden;
+}
+.box li{float:left;line-height: 230px;}
+.box li a,.box li a:visited{
+ display:block;
+ border: 5px solid #ccc;
+ width: 380px;
+ height: 230px;
+ text-align: center;
+ margin-left: -5px;
+ margin-top: -5px;
+ position: relative;
+ z-index: 1;
+}
+.box li a:hover{border-color: #f00;z-index: 2;}
+
+a {
+  text-decoration: none;
+  color: #666;
+}
+
+.pop {
+  position: fixed;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: rgba(0,0,0,.4);
+  z-index: 999999;
+}
+
+.pop-con {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  background: #ffffff;
+  margin-top: -100px;
+  margin-left: -200px;
+  line-height: 32px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+.btn {
+  margin-top: 30px;
+  text-align: center;
+  line-height: 32px;
+}
+
+.btn a {
+  display: inline-block;
+  width: 50px;
+}
+#Url {
+  width: 200px;
+  margin-left: 10px;
+}
+</style>
+</head>
+<body>
+<div class="xttblog">
+ <ul class="box">
+   <li id="addNew"><a href="javascript:;" title="" style="font-size:100px">+</a></li>
+ </ul>
+</div>
+
+<div class="pop" style="display:none">
+  <div class="pop-con">
+    <div>
+      <input type="file" id="File">
+      <br>
+      <span>输入url:</span><input type="text" id="Url">
+    </div>
+    <div class="btn">
+      <a href="javascript:;" class="btn-ok">确认</a>
+      <a href="javascript:;" class="btn-cancel">取消</a>
+    </div>
+  </div>
+</div>
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+
+<script>
+  $.ajax({
+    url: 'http://yannan.xyz/api/navlist',
+    type: 'GET',
+    success: function (res) {
+      var list = res.data
+      var html = ''
+      console.log(list)
+
+      $.each(list, function (index, item) {
+        html += '<li>'
+        html += '<a href="' + item.url  + '" target="_blank">'
+        html += '<img src="' + item.imgUrl + '"/>'
+        html += '</a>'
+        html += '</li>'
+      })
+
+      $('.box').prepend(html)
+    }
+  })
+  $('#addNew').click(function() {
+    $('.pop').show()
+  })
+
+  $('.btn-cancel').click(function() {
+    $('.pop').hide()
+  })
+
+  $('.btn-ok').click(function() {
+    var fileObj = document.getElementById("File").files[0]; // js 获取文件对象
+    var url = $('#Url').val()
+     if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+         alert("请选择图片");
+         return;
+     }
+     if (!url) {
+       return
+     }
+     var formFile = new FormData();
+     formFile.append("action", "UploadVMKImagePath");
+     formFile.append("file", fileObj); //加入文件对象
+
+     //第一种  XMLHttpRequest 对象
+     //var xhr = new XMLHttpRequest();
+     //xhr.open("post", "/Admin/Ajax/VMKHandler.ashx", true);
+     //xhr.onload = function () {
+     //    alert("上传完成!");
+     //};
+     //xhr.send(formFile);
+
+     //第二种 ajax 提交
+
+     var data = formFile;
+     $.ajax({
+         url: "http://yannan.xyz/uploadFile",
+         data: data,
+         type: "Post",
+         dataType: "json",
+         cache: false,//上传文件无需缓存
+         processData: false,//用于对data参数进行序列化处理 这里必须false
+         contentType: false, //必须
+         success: function (result) {
+           console.log(result.filename)
+           imgUrl = 'http://yannan.xyz' + result.filename
+           alert("上传完成!");
+           addRecord(url, imgUrl)
+         }
+     })
+
+  })
+
+  function addRecord(url, imgUrl) {
+    $.ajax({
+      url: 'http://yannan.xyz/api/addnav',
+      type: 'GET',
+      data: {
+        url: url,
+        imgUrl: imgUrl
+      },
+      success: function (res) {
+        console.log(res)
+        window.location.reload()
+      }
+    })
+  }
+</script>
+</html>
