@@ -176,6 +176,11 @@ var setNav = async (url, imgUrl, title) => {
 
 }
 
+var deleteNav = async (id) => {
+	var res = await Nav.remove({_id: id})
+	return res
+}
+
 module.exports = {
   getInfo,
   getNews,
@@ -183,5 +188,6 @@ module.exports = {
 	getUrl,
   setUrl,
 	getNav,
-	setNav
+	setNav,
+	deleteNav
 }

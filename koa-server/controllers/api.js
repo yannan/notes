@@ -4,7 +4,7 @@ const News = mongoose.model('News');
 const Blog = mongoose.model('Blog');
 const Link = mongoose.model('Link');
 const Nav = mongoose.model('Nav');
-const {getInfo, getNews, getBlog, getUrl, setUrl, getNav, setNav} = require('../dbhelper/infoHelper');
+const {getInfo, getNews, getBlog, getUrl, setUrl, getNav, setNav, deleteNav} = require('../dbhelper/infoHelper');
 
 const APIError = require('../rest').APIError;
 
@@ -138,6 +138,18 @@ module.exports = {
       code: 200,
       msg: '成功',
       data: res.data
+    })
+  },
+
+  'GET /api/delnav': async (ctx, next) => {
+    let id = ctx.request.query.id || ''
+
+    let res = await deleteNav(id)
+
+    ctx.rest({
+      code: 200,
+      msg: '成功',
+      data: res
     })
   }
 };
