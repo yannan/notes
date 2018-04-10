@@ -181,6 +181,8 @@ img {
       success: function (res) {
         if (res.code == 200) {
           alert('删除成功')
+          window.location.reload()
+
         } else {
           alert(res.message)
         }
