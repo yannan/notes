@@ -94,20 +94,21 @@ export default {
     },
 
     loadData: function () {
+      let param = `size=${this.size}&page=${this.page}`
       if (this.index === 0) {
-        let param = `size=${this.size}&page=${this.page}`
         resApi(param).then((res) => {
           this.infos = res.data
+          this.total = res.total
         })
       } else if (this.index === 1) {
-        let param = `size=${this.size}&page=${this.page}`
         newsApi(param).then((res) => {
           this.infos = res.data
+          this.total = res.total
         })
       } else {
-        let param = `size=${this.size}&page=${this.page}`
         blogApi(param).then((res) => {
           this.infos = res.data
+          this.total = res.total
         })
       }
     }

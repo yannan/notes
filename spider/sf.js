@@ -1,12 +1,19 @@
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const sf = require('./models/sf');
-var schedule = require('node-schedule');
+const schedule = require('node-schedule');
 
 const NEWS_TITLE = '.news__item-title a';
 const NEWS_ITEM = '.news__item';
 const NEWS_TYPE = '.news__item-meta > a.ml10';
 const hostName = 'https://segmentfault.com/news';
+
+const DB_URL = 'mongodb://45.76.66.135:52222/segmentfault';
+if (mongoose.connection.readyState == 0) {
+  mongoose.connect(DB_URL);
+}
+
+let db = mongoose.connection;
 
 // scheduleCronstyle();
 sfSpider(sf);
@@ -22,10 +29,11 @@ async function sfSpider(collection) {
   // await page.screenshot({path: 'screenshots/segmentfault.png'});
   await sfTaskLoop(page, urlInfo, collection.info);
 
-  await page.goto(hostName);
-  await sfTaskLoop(page, hostName, collection.news);
+  // await page.goto(hostName);
+  // await sfTaskLoop(page, hostName, collection.news);
 
-  browser.close();
+  await browser.close();
+  db.close();
 }
 
 // 循环爬取
@@ -71,10 +79,6 @@ function scheduleCronstyle () {
 
 //  更新数据库
 function upsertInfo(infoObj, collection) {
-  const DB_URL = 'mongodb://45.76.66.135:52222/segmentfault';
-  if (mongoose.connection.readyState == 0) {
-    mongoose.connect(DB_URL);
-  }
 
   // 如果文章存在，就更新实例，不新增
   const conditions = {
