@@ -8,6 +8,14 @@ const {getInfo, getNews, getBlog, getUrl, setUrl, getNav, setNav, deleteNav} = r
 
 const APIError = require('../rest').APIError;
 
+function setStatus(obj) {
+  if (typeof obj === 'object') {
+    obj.code = 200;
+    obj.msg = '成功';
+  }
+  return obj;
+}
+
 module.exports = {
   // 'GET /api/sf/:size/:page': async (ctx, next) => {
   //   console.log(ctx.params.size);
@@ -29,7 +37,7 @@ module.exports = {
         msg: '参数错误'
       })
     } else {
-      ctx.rest(info)
+      ctx.rest(setStatus(info))
     }
   },
 
@@ -43,7 +51,7 @@ module.exports = {
         msg: '参数错误'
       })
     } else {
-      ctx.rest(news)
+      ctx.rest(setStatus(news))
     }
   },
 
@@ -57,7 +65,7 @@ module.exports = {
         msg: '参数错误'
       })
     } else {
-      ctx.rest(blog)
+      ctx.rest(setStatus(blog))
     }
   },
 
