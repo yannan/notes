@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const poetry = require('./models/poetry');
 const hostName = 'https://www.gushiwen.org/shiwen/default_0A0A';
-const nodeItem = '.left .sons .cont';
+const nodeItem = '.left > .sons .cont';
 const nodeTitle = 'b';
 const nodeAuthor = '.source';
 const nodeCon = '.contson';
@@ -76,7 +76,7 @@ async function taskLoop(page, collection) {
 function upsertData(dataObj, collection) {
   return new Promise((resolve, reject) => {
     const conditions = {
-      title: dataObj.title
+      content: dataObj.content
     };
     const options = {
       upsert: true,
