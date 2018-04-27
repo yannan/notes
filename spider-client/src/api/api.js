@@ -1,6 +1,10 @@
 import axios from 'axios'
 
-const host = 'http://yannan.xyz'
+let host = 'http://yannan.xyz'
+
+if (window.location.href.indexOf('http://localhost:8087') > -1) {
+  host = ''
+}
 
 export const resApi = params => {
   return axios.get(`${host}/api/sf/query?${params}`).then(res => res.data).catch(function (err) {

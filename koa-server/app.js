@@ -3,6 +3,7 @@ const DB_URL = 'mongodb://45.76.66.135:52222/segmentfault';
 var conn = mongoose.connect(DB_URL);
 
 const {Link, Info, News, Blog} = require('./models/info');
+const Poetry = require('./models/poetry');
 
 // 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:
 const Koa = require('koa');

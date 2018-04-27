@@ -16,11 +16,7 @@ export default {
   },
   data () {
     return {
-      // tabs: [
-      //   {'title': 'segmenfault'},
-      //   {'title': '掘金'},
-      //   {'title': 'W3C'}
-      // ]
+
     }
   },
   methods: {

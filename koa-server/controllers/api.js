@@ -4,7 +4,9 @@ const News = mongoose.model('News');
 const Blog = mongoose.model('Blog');
 const Link = mongoose.model('Link');
 const Nav = mongoose.model('Nav');
+const Poetry = mongoose.model('Poetry');
 const {getInfo, getNews, getBlog, getUrl, setUrl, getNav, setNav, deleteNav} = require('../dbhelper/infoHelper');
+const getPoetry = require('../dbhelper/poetryHelper')
 
 const APIError = require('../rest').APIError;
 
@@ -26,6 +28,18 @@ module.exports = {
   //     info: info
   //   })
   // },
+  'GET /api/poetry': async (ctx, next) => {
+    try {
+      let data = await getPoetry();
+      ctx.rest(setStatus(data))
+    } catch(err) {
+      console.error(err);
+      ctx.rest({
+        code: 1000001,
+        msg: err
+      })
+    }
+  },
 
   'GET /api/sf/query': async (ctx, next) => {
     // console.log(ctx.request.query.size, ctx.request.query.page);
