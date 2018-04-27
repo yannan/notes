@@ -23,3 +23,10 @@ export const blogApi = params => {
     console.log(err)
   })
 }
+
+
+export const getPoetry = () => {
+  return axios.get(`${host}/api/poetry`).then(res => res.data).catch(err => {
+    console.log(err)
+  })
+}

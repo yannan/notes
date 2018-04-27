@@ -5,9 +5,9 @@
         <router-link to="/"> {{ msg }} </router-link>
       </h1>
       <div class="fr right-tab">
-        <router-link to="/foo/1/">Go to Foo</router-link>
-        <router-link to="/foo/2/">Go to Foo2</router-link>
-        <router-link to="/bar/">Go to Bar</router-link>
+        <!-- <router-link to="/foo/1/">Go to Foo</router-link>
+        <router-link to="/foo/2/">Go to Foo2</router-link> -->
+        <router-link to="/poetry/">每日一诗</router-link>
       </div>
     </header>
 
