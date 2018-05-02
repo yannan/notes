@@ -15,12 +15,11 @@ if (mongoose.connection.readyState == 0) {
 
 let db = mongoose.connection;
 
-scheduleCronstyle(sf);
-// sfSpider(sf);
+sfSpider(sf);
 
 async function sfSpider(collection) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     slowMo: 200,
     ignoreHTTPSErrors: true,
     timeout: 10000
@@ -34,19 +33,19 @@ async function sfSpider(collection) {
     await page.goto(urlInfo);
 
     // await page.screenshot({path: 'screenshots/segmentfault.png'});
-    await sfTaskLoop(page, urlInfo, collection.info);
+    await scheduleCronstyle(page, urlInfo, collection.info);
 
-    // await page.goto(hostName);
-    // await sfTaskLoop(page, hostName, collection.news);
+    await page.goto(hostName);
+    await scheduleCronstyle(page, hostName, collection.news);
 
-    await browser.close();
-    db.close();
+    // await browser.close();
+    // db.close();
   } catch (err) {
     console.log(err);
     await browser.close();
     db.close();
   } finally {
-    process.exit(0);
+    // process.exit(0);
   }
 }
 
@@ -85,9 +84,9 @@ async function sfTaskLoop (page, url, collection) {
 }
 
 // 定时任务
-function scheduleCronstyle (collection) {
-  schedule.scheduleJob('* */10 * * * *', function () {
-    sfSpider(collection);
+async function scheduleCronstyle (page, url, collection) {
+  await schedule.scheduleJob('0 */2 * * * *', function () {
+    sfTaskLoop(page, url, collection);
   })
 }
 
