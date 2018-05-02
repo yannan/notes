@@ -15,25 +15,39 @@ if (mongoose.connection.readyState == 0) {
 
 let db = mongoose.connection;
 
-// scheduleCronstyle();
-sfSpider(sf);
+scheduleCronstyle(sf);
+// sfSpider(sf);
 
 async function sfSpider(collection) {
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({
+    headless: true,
+    slowMo: 200,
+    ignoreHTTPSErrors: true,
+    timeout: 10000
+  });
   // const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+  // const page = await browser.newPage();
+  try {
+    const page = await browser.newPage();
+    // await page.goto(hostName);
+    let urlInfo = `${hostName}/newest`;
+    await page.goto(urlInfo);
 
-  let urlInfo = `${hostName}/newest`;
-  await page.goto(urlInfo);
+    // await page.screenshot({path: 'screenshots/segmentfault.png'});
+    await sfTaskLoop(page, urlInfo, collection.info);
 
-  // await page.screenshot({path: 'screenshots/segmentfault.png'});
-  await sfTaskLoop(page, urlInfo, collection.info);
+    // await page.goto(hostName);
+    // await sfTaskLoop(page, hostName, collection.news);
 
-  // await page.goto(hostName);
-  // await sfTaskLoop(page, hostName, collection.news);
-
-  await browser.close();
-  db.close();
+    await browser.close();
+    db.close();
+  } catch (err) {
+    console.log(err);
+    await browser.close();
+    db.close();
+  } finally {
+    process.exit(0);
+  }
 }
 
 // 循环爬取
@@ -71,9 +85,9 @@ async function sfTaskLoop (page, url, collection) {
 }
 
 // 定时任务
-function scheduleCronstyle () {
-  schedule.scheduleJob('30 49 11 * * *', function () {
-    sfSpider();
+function scheduleCronstyle (collection) {
+  schedule.scheduleJob('* */10 * * * *', function () {
+    sfSpider(collection);
   })
 }
 

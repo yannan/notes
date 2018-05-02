@@ -55,7 +55,7 @@
                             $('#prePage, #nextPage').show();
                         }
                         $.getJSON(`/api/sf/query?size=${this.size}&page=${this.page}`).done(function (data) {
-                            vm.infos = data.info;
+                            vm.infos = data.data;
                             // console.log(data);
                         });
                     },
@@ -66,7 +66,7 @@
                                 vm.getList();
                             }
                         })
-                        
+
                     },
                     goNext: function () {
                         $('#nextPage').click(function () {
@@ -87,4 +87,3 @@
     </script>
 
 {% endblock %}
-
