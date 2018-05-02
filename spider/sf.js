@@ -19,7 +19,7 @@ sfSpider(sf);
 
 async function sfSpider(collection) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     slowMo: 200,
     ignoreHTTPSErrors: true,
     timeout: 10000
