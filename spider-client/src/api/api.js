@@ -24,6 +24,12 @@ export const blogApi = params => {
   })
 }
 
+export const jjApi = params => {
+  return axios.get(`${host}/api/jj/query?${params}`).then(res => res.data).catch(function (err) {
+    console.log(err)
+  })
+}
+
 
 export const getPoetry = () => {
   return axios.get(`${host}/api/poetry`).then(res => res.data).catch(err => {

@@ -10,7 +10,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
+        :current-page="page"
         :page-sizes="[10, 20, 50, 100]"
         :page-size="size"
         layout="total, sizes, prev, pager, next, jumper"
@@ -25,20 +25,20 @@
 import tabCommon from '../component/tab-common.vue'
 import resList from '../component/res-list.vue'
 
-import {resApi, newsApi, blogApi} from '../api/api.js'
+import {resApi, newsApi, blogApi, jjApi} from '../api/api.js'
 
 export default {
   data () {
     return {
       msg: 'DEMO',
-      currentPage: 1,
       total: 0,
       size: 10,
       page: 1,
       index: 0,
       otherTab: [
         {'title': '最新', 'current': true},
-        {'title': '最热', 'current': false}
+        {'title': '最热', 'current': false},
+        {'title': '掘金', 'current': false}
       ],
       infos: ''
     }
@@ -58,44 +58,55 @@ export default {
     },
 
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.size = val
       this.loadData()
     },
 
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.page = val
       this.loadData()
     },
 
     tabHandle: function (index) {
+      if (index === this.index) return
       this.otherTab = this.otherTab.map((item) => {
         item.current = false
         return item
       })
       this.otherTab[index].current = true
       this.index = index
+      this.page = 1
 
       this.loadData()
     },
 
     loadData: function () {
+      const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
       let param = `size=${this.size}&page=${this.page}`
       if (this.index === 0) {
         resApi(param).then((res) => {
           this.infos = res.data
           this.total = res.total
+          loading.close();
         })
       } else if (this.index === 1) {
         newsApi(param).then((res) => {
           this.infos = res.data
           this.total = res.total
+          loading.close();
         })
       } else {
-        blogApi(param).then((res) => {
+        jjApi(param).then((res) => {
           this.infos = res.data
           this.total = res.total
+          loading.close();
         })
       }
     }

@@ -2,7 +2,7 @@
   <div class="tab-common">
     <ul>
       <li v-for="(tab, index) in tabs" @click="tabChange(index)">
-        <a href="#" :class="{ current: tab.current }"> {{ tab.title }} </a>
+        <a href="javascript:;" :class="{ current: tab.current }"> {{ tab.title }} </a>
       </li>
     </ul>
   </div>
