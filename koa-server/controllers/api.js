@@ -5,7 +5,8 @@ const Blog = mongoose.model('Blog');
 const Link = mongoose.model('Link');
 const Nav = mongoose.model('Nav');
 const Poetry = mongoose.model('Poetry');
-const {getInfo, getNews, getBlog, getUrl, setUrl, getNav, setNav, deleteNav} = require('../dbhelper/infoHelper');
+const Juejin = mongoose.model('Juejin');
+const {getInfo, getNews, getBlog, getJJ, getUrl, setUrl, getNav, setNav, deleteNav} = require('../dbhelper/infoHelper');
 const getPoetry = require('../dbhelper/poetryHelper')
 
 const APIError = require('../rest').APIError;
@@ -80,6 +81,20 @@ module.exports = {
       })
     } else {
       ctx.rest(setStatus(blog))
+    }
+  },
+
+  'GET /api/jj/query': async (ctx, next) => {
+    // console.log(ctx.request.query.size, ctx.request.query.page);
+    var data = await getJJ(parseInt(ctx.request.query.size), parseInt(ctx.request.query.page));
+
+    if (!ctx.request.query.size || !ctx.request.query.page) {
+      ctx.rest({
+        code: 1000001,
+        msg: '参数错误'
+      })
+    } else {
+      ctx.rest(setStatus(data))
     }
   },
 

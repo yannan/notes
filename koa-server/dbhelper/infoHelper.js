@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Link, Info, News, Blog, Nav} = require('../models/info');
+const {Link, Info, News, Blog, Nav, Juejin} = require('../models/info');
 
 const MAP = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
 				'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
@@ -130,6 +130,32 @@ var getBlog = async (size, page) => {
 	}
 }
 
+var getJJ = async (size, page) => {
+  var query = Juejin.find({}).limit(size).skip(size * page - 10).sort({ _id: -1 });
+	var countQuery = Juejin.find({}).count()
+  var data = [];
+	var total = 0;
+  await query.exec(function(err, res) {
+    if (err) {
+      data = [];
+    } else {
+      data = res;
+    }
+  })
+	await countQuery.exec(function(err, res) {
+		if (err) {
+
+    } else {
+      total = res
+    }
+	})
+
+  return {
+		data,
+		total
+	}
+}
+
 var getNav = async () => {
   var query = Nav.find({}).sort({ _id: -1 });
 	var countQuery = Nav.find({}).count()
@@ -185,6 +211,7 @@ module.exports = {
   getInfo,
   getNews,
   getBlog,
+	getJJ,
 	getUrl,
   setUrl,
 	getNav,

@@ -39,10 +39,17 @@ const navSchema = new mongoose.Schema({
   dateCrawled: Date
 });
 
+const juejinSchema = new mongoose.Schema({
+  title: String,
+  link: String,
+  dateCrawled: Date
+});
+
 module.exports = {
   'Link': mongoose.model('Link', linkSchema),
   'Info': mongoose.model('Info', infoSchema),
   'News': mongoose.model('News', newsSchema),
   'Blog': mongoose.model('Blog', blogSchema),
-  'Nav': mongoose.model('Nav', navSchema)
+  'Nav': mongoose.model('Nav', navSchema),
+  'Juejin': mongoose.model('Juejin', juejinSchema)
 };

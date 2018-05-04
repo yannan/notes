@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const {juejin} = require('./models/juejin');
+const {readFile, saveFile} = require('./fileHelp.js')
 
 async function jjSpider(collection) {
   const browser = await puppeteer.launch({headless: false});
@@ -43,7 +44,7 @@ async function jjSpider(collection) {
       await upsertData({
         title: title,
         link: link,
-        dataCrawled: new Date()
+        dateCrawled: new Date()
       }, collection);
     }
     console.log('~~~~~~~~写入数据库完成~~~~~~~~');
@@ -58,42 +59,42 @@ async function jjSpider(collection) {
   }
 }
 
-function readFile(filePath) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, (err, res) => {
-      if (err) return reject(err);
-      resolve(res)
-    })
-  })
-}
-
-function saveFile(filePath, fileData) {
-  return new Promise((resolve, reject) => {
-    const wstream = fs.createWriteStream(filePath);
-
-    wstream.on('open', () => {
-      const blockSize = 128;
-      const nbBlocks = Math.ceil(fileData.length / blockSize);
-      for (let i = 0; i < nbBlocks; i++) {
-        const currentBlock = fileData.slice(
-          blockSize * i,
-          Math.min(blockSize * (i + 1), fileData.length)
-        );
-        wstream.write(currentBlock);
-      }
-
-      wstream.end();
-    });
-
-    wstream.on('error', (err) => {
-      reject(err);
-    });
-
-    wstream.on('finish', () => {
-      resolve(true);
-    });
-  });
-}
+// function readFile(filePath) {
+//   return new Promise((resolve, reject) => {
+//     fs.readFile(filePath, (err, res) => {
+//       if (err) return reject(err);
+//       resolve(res)
+//     })
+//   })
+// }
+//
+// function saveFile(filePath, fileData) {
+//   return new Promise((resolve, reject) => {
+//     const wstream = fs.createWriteStream(filePath);
+//
+//     wstream.on('open', () => {
+//       const blockSize = 128;
+//       const nbBlocks = Math.ceil(fileData.length / blockSize);
+//       for (let i = 0; i < nbBlocks; i++) {
+//         const currentBlock = fileData.slice(
+//           blockSize * i,
+//           Math.min(blockSize * (i + 1), fileData.length)
+//         );
+//         wstream.write(currentBlock);
+//       }
+//
+//       wstream.end();
+//     });
+//
+//     wstream.on('error', (err) => {
+//       reject(err);
+//     });
+//
+//     wstream.on('finish', () => {
+//       resolve(true);
+//     });
+//   });
+// }
 
 //  更新数据库
 function upsertData(dataObj, collection) {

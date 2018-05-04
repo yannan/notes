@@ -1505,3 +1505,23 @@ title: 如何编写一个前端框架之一－项目结构（译）, link: https
 title: GitHub常用命令, link: https://juejin.im/entry/5ad411a7518825555d47b7d9 
 title: 从一行等式理解JS当中的call, apply和bind, link: https://juejin.im/entry/5ac45fa86fb9a028cf32ae97 
 title: React-Router看这里, link: https://juejin.im/post/5ad7235d5188252ea24fac25 
+title: vue+canvas如何实现b站萌系登录界面, link: https://juejin.im/post/5ae802a46fb9a07ac55fec04 
+title: 一个前端菜鸟的成长历程, link: https://juejin.im/post/5ae3338d6fb9a07aca79e63e 
+title: 两小时快速构建微信小程序, link: https://juejin.im/post/5ae7b96f6fb9a07aa6318df1 
+title: 别人写的CSS，你敢用吗？, link: https://juejin.im/post/5ae3e069f265da0b82628950 
+title: VS Code v1.23发布,这个版本有点意思, link: https://juejin.im/entry/5aebb2c1f265da0b8455480e 
+title: Vue项目全局配置微信分享实践, link: https://juejin.im/post/5ae5e6c8518825673027eb56 
+title: Vue国际化处理 vue-i18n 以及项目自动切换中英文, link: https://juejin.im/post/5ae6ada2518825673614b26e 
+title: HTML5触摸事件实现移动端简易进度条, link: https://juejin.im/post/5ae822e8f265da0b91273990 
+title: 前端工程师系列，TCP复习及浓缩总结（全干货，支持面试）, link: https://juejin.im/post/5ae2711bf265da0b873a3657 
+title: 可以随心所欲的canvas粒子特效, link: https://juejin.im/post/5ae40fbc5188251cc953a391 
+title: 四月前端知识集锦（每月不可错过的文章集锦）, link: https://juejin.im/post/5ae95f17f265da0b93481dec 
+title: Vue二次封装axios为插件使用, link: https://juejin.im/post/5ae432aaf265da0b9c1063c8 
+title: 干净的git历史和代码审查工作流程, link: https://juejin.im/entry/5aebe6536fb9a07ab83de3bc 
+title: 如何在疲劳的JS世界中持续学习, link: https://juejin.im/post/5ae97bd05188256719521ae0 
+title: node爬取网易云歌曲, link: https://juejin.im/post/5ae411b3f265da0b9e64d0f6 
+title: 前端工程师到底需要掌握哪些 HTTP 知识才能过好这一生？, link: https://juejin.im/post/5ae44dc56fb9a07ab110eee6 
+title: 致敬 React: 为 Vue 引入容器组件和展示组件, link: https://juejin.im/post/5ae9a5545188256709610635 
+title: Visual Studio Code入门(译) - 简书, link: https://juejin.im/entry/5aebe0735188251cc953bf38 
+title: React 深入系列５：事件处理, link: https://juejin.im/post/5aebc71951882567244dd70c 
+title: 关于Hexo6.0搭建个人博客(高级篇), link: https://juejin.im/post/5ae6db566fb9a07a9a10a1a1 
