@@ -1,0 +1,57 @@
+.zh-header {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background: #ffffff;
+
+    & .header-inner {
+        width: 1000px;
+        margin: 0 auto;
+    }
+
+    & .logo {
+        width: 200px;
+        background: transparent url(./assets/logo.png) no-repeat 0 13px;
+        overflow: hidden;
+    }
+
+    & .link-logo {
+        display: block;
+        height: 78px;
+        font-size: 0;
+        text-indent: -150%;
+    }
+}
+
+.zh-content {
+    width: 1000px;
+    margin: 100px auto 0;
+    overflow: hidden;
+
+    & .daily-item {
+        float: left;
+        width: calc(100% / 3);
+        padding: 15px 36px;
+
+        & .img-wrap {
+            display: block;
+            max-width: 100%;
+            height: 260px;
+            opacity: 1;
+            margin-bottom: 1em;
+        }
+
+        & .short-graph {
+            font-size: 16px;
+            color: #000;
+            line-height: 30px;
+            background: #fff;
+        }
+
+        & .item-link {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+}
