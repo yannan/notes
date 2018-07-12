@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const path = require('path');
 const { URL } = require('url');
 
@@ -12,13 +13,14 @@ const getRequest = (_url) => {
 				'Cookie': '_xsrf=Ob8uhFHMoG79UnoIwUV77tLs4eoL2gsL; path=/; domain=.zhihu.com; Expires=Sun, 27 Dec 2020 07:19:40 GMT;tgw_l7_route=29b95235203ffc15742abb84032d7e75; path=/; domain=.news-at.zhihu.com; Expires=Thu, 12 Jul 2018 09:20:04 GMT;'
 			}
 		}
-		http.get(option, (res) => {
+		https.get(option, (res) => {
 			  const { statusCode } = res;
 			  const contentType = res.headers['content-type'];
 
 			  let error;
 			  if (statusCode === 301) {
-			  	getRequest(res.headers.location);
+			  	// getRequest(res.headers.location);
+			  	console.log(res.headers);
 			  } else if (statusCode !== 200) {
 			    error = new Error('请求失败。\n' + `状态码: ${statusCode}`);
 			  } else if (!/^application\/json/.test(contentType)) {
@@ -86,7 +88,7 @@ const getImg = (basename) => {
 module.exports = {
 	'GET /api/zhihu/last-stories': async (ctx, next) => {
 		try {
-			let data = await getRequest('http://news-at.zhihu.com/api/4/news/latest');
+			let data = await getRequest('https://news-at.zhihu.com/api/4/news/latest');
 			data.stories.forEach(story => {
 				story.images.forEach((image, index, arr) => {
 					arr[index] = 'http://' + ctx.host + '/api/zhihuImg/' + path.basename(image)
