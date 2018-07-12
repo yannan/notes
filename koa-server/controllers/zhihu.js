@@ -8,7 +8,9 @@ const getRequest = (url) => {
 			  const contentType = res.headers['content-type'];
 
 			  let error;
-			  if (statusCode !== 200) {
+			  if (statusCode === 301) {
+			  	getRequest(res.headers.location);
+			  } else if (statusCode !== 200) {
 			    error = new Error('请求失败。\n' + `状态码: ${statusCode}`);
 			  } else if (!/^application\/json/.test(contentType)) {
 			    error = new Error('无效的 content-type.\n' + `期望 application/json 但获取的是 ${contentType}`);
