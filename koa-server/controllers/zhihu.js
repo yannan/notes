@@ -1,9 +1,18 @@
 const http = require('http');
 const path = require('path');
+const { URL } = require('url');
 
-const getRequest = (url) => {
+const getRequest = (_url) => {
 	return new Promise(function(resolve, reject) {
-		http.get(url, (res) => {
+		const myURL = new URL(_url);
+		const option = {
+			hostname: myURL.host,
+			path: myURL.pathname,
+			headers: {
+				'Cookie': '_xsrf=Ob8uhFHMoG79UnoIwUV77tLs4eoL2gsL; path=/; domain=.zhihu.com; Expires=Sun, 27 Dec 2020 07:19:40 GMT;tgw_l7_route=29b95235203ffc15742abb84032d7e75; path=/; domain=.news-at.zhihu.com; Expires=Thu, 12 Jul 2018 09:20:04 GMT;'
+			}
+		}
+		http.get(option, (res) => {
 			  const { statusCode } = res;
 			  const contentType = res.headers['content-type'];
 
