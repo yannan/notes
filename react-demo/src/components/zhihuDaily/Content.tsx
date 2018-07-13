@@ -5,10 +5,10 @@ const styles = require('./styles.css');
 
 export default class Content extends React.Component<Daily.Content.Props, Daily.Content.State> {
     state = {
-        items: [{}]
+        items: [] as Array<{}>
     }
     componentDidMount() {
-        fetch('http://localhost:3000/api/zhihu/last-stories')
+        fetch('/api/zhihu/last-stories')
             .then(res => res.json())
             .then(json => this.setState({
                 items: json.data.stories

@@ -106,10 +106,25 @@ module.exports = {
 		}
 	},
 
+	'GET /api/zhihu/news/:id': async (ctx, next) => {
+		try {
+			const id = ctx.params.id;
+			let data = await getRequest('http://news-at.zhihu.com/api/4/news/' + id);
+			ctx.rest({
+				code: 200,
+				data
+			})
+		} catch(e) {
+			ctx.rest({
+				code: 404,
+				message: e
+			})
+		}
+	},
+
 	'GET /api/zhihuImg/:basename': async (ctx, next) => {
 		try {
 			const data = await getImg(ctx.params.basename);
-			console.log(ctx.params.basename)
 			ctx.type = 'image/jpeg';
 			ctx.response.body = new Buffer(data, 'binary');
 		} catch(e) {

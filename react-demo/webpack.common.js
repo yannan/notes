@@ -1,20 +1,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    devtool: 'eval-source-map',
-
-    entry: path.resolve(__dirname, 'src/index.tsx'),
+    entry: {
+        main: path.resolve(__dirname, 'src/index.tsx')
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
-    },
-    devServer: {
-        contentBase: __dirname + '/src',
-        historyApiFallback: true,
-        inline: true,
-        hot: true
+        filename: '[name]-[hash].js'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.css']
@@ -64,6 +59,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             template: __dirname + "/index.html"
         }),
